@@ -28,6 +28,17 @@ class Log:
         logInfForDay = "*"+self.LogTitle +"\n"+startTimeInf+"\t"+endTimeInf+"\t"+doTimeInf+"\t"+self.tagProject+"\t"+self.tagKind
 
         return logInfForDay
+    def getLogParametaList(self):
+        lstLogParameta = []
+        lstLogParameta.append(self.startTime)
+        lstLogParameta.append(self.endTime)
+        lstLogParameta.append(self.LogTitle)
+        lstLogParameta.append(self.tagProject)
+        lstLogParameta.append(self.tagKind)
+        lstLogParameta.append(self.doTime)
+
+        return lstLogParameta
+
 
     
 

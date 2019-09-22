@@ -1,5 +1,7 @@
+
 import main_func
 import os
+import statistics
 
 if __name__ == '__main__':
     lstTask = main_func.startTaskFor()
@@ -28,7 +30,12 @@ if __name__ == '__main__':
             main_func.saveLog(lstLog)
         if (userinput == "getlog"):
             main_func.getLogInf(lstLog)
+        if (userinput == "stat"):
+            main_func.getCSV(lstLog)
+            csv = statistics.CSV()
+            csv.get()
         if (userinput == "0"):
             i = 1
     
+
 

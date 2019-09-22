@@ -3,6 +3,7 @@ import os
 import time
 import pickle
 import datetime
+import csv
 
 import Date
 import Task
@@ -77,19 +78,15 @@ def getLogInf(lstLog):
         today = datetime.datetime.now()
         day = today.day
         os.system("clear")
-        print("start" + "\t" + "end" + "\t" +
-                "time" +"\t"+"project"+"\t"+"kind")
         for log in lstLog:
             logDay = log.startTime.day
             if (logDay == day):
                 logInf = log.getLogInfForDay()
                 print(logInf)
     else:
+        os.system("clear")
         for log in lstLog:
             logDay = log.startTime.day
-            os.system("clear")
-            print("start" + "\t" + "end" + "\t" +
-                    "time" +"\t"+"project"+"\t"+"kind")
             if (logDay == int(when)):
                 logInf = log.getLogInfForDay()
                 print(logInf)
@@ -192,6 +189,16 @@ def setTaskLog(lstTagProject, lstTagKind, lstLog):
 
     taskLog = TaskLog.Log(startTime, endTime, title, tagProjectForSet, tagKindForSet, doTime)
     lstLog.append(taskLog)
+
+def getCSV(lstLog):
+    with open("log.csv", "w") as f:
+        writer = csv.writer(f)
+        for log in lstLog:
+            lstLogParameta = log.getLogParametaList()
+            writer.writerow(lstLogParameta)
+    return
+
+
     
 
     
