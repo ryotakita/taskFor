@@ -7,7 +7,6 @@ class CSV:
     def __init__(self):
         self.data = pd.read_csv("log.csv", names=("starTIme","endTime","Title","project","kind","time"))
         self.data.head(2)
-        #print(data)
         self.data = pd.read_csv("log.csv", names=(
             "startTime", "endTime", "Title", "project", "kind", "time"))
         self.data.head(2)
@@ -19,18 +18,48 @@ class CSV:
         self.data.set_index("time", inplace = True)
         self.data.index = pd.to_timedelta(self.data.index)
         self.data["seconds"] = list(pd.Series(self.data.index).apply(lambda x: x.seconds))
-    def get(self):
-        self.test = self.data.groupby(["project"])["seconds"].sum()
-        #print(test)
+    def getSumOfProject(self, dataSource):
+        self.test = dataSource.groupby(["project"])["seconds"].sum()
         self.m, self.s = divmod(self.test  ,60)
         self.h, self.m = divmod(self.m,60)
-        #print(s)
-        #print(m)
-        # test["time_hour"] = list(h)
-        # test["time_minutes"] = list(m)
-        #print(test)
-        self.test_new = pd.concat([self.test,self.h,self.m], axis =1,sort=True)
-        print(self.test_new)
-        #test["workingtime"] = list(test.apply(lambda x: str(x['time_hour']) +":"+ str(x['time_minutes'])))
-        #print(test)
-        #print(data)
+        data = pd.concat([self.test,self.h,self.m], axis =1,sort=True, keys = ["seconds", "hour", "minutes"])
+        print(data)
+    def getSumOfKind(self, dataSource):
+        self.test = dataSource.groupby(["kind"])["seconds"].sum()
+        self.m, self.s = divmod(self.test  ,60)
+        self.h, self.m = divmod(self.m,60)
+        data = pd.concat([self.test,self.h,self.m], axis =1,sort=True, keys = ["seconds", "hour", "minutes"])
+        print(data)
+    def getDataOfDay(self, year, month, day):
+        now = datetime.datetime.now()
+        yearNow = now.year
+        monthNow = now.month
+        dayNow = now.day
+        if (year == ""):
+            year = yearNow
+        if (month == ""):
+            month = monthNow
+        if (day == ""):
+            day = dayNow
+        DataDay = self.data[(self.data["day"] == int(day)) & (self.data["year"] == int(year)) & (self.data["month"] == int(month))]
+        return DataDay
+    def getDataOfMonth(self, year, month):
+        now = datetime.datetime.now()
+        yearNow = now.year
+        monthNow = now.month
+        if (year == ""):
+            year = yearNow
+        if (month == ""):
+            month = monthNow
+        DataDay = self.data[(self.data["year"] == int(year)) & (self.data["month"] == int(month))]
+        return DataDay
+    def getDataOfYear(self, year):
+        now = datetime.datetime.now()
+        yearNow = now.year
+        if (year == ""):
+            year = yearNow
+        DataDay = self.data[(self.data["year"] == int(year))]
+        return DataDay
+
+        
+

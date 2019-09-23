@@ -9,6 +9,7 @@ import Date
 import Task
 import main_func
 import TaskLog
+import statistics
 
 def setTask(lstTask):
     taskInf = input("title,date,subtitle>>>")
@@ -147,6 +148,7 @@ def setLogStartTime():
     startTime = datetime.datetime.now()
     with open("startTime.pickle", mode="wb") as f:
         pickle.dump(startTime, f)
+    print("startYourTask")
 
 def setTaskLog(lstTagProject, lstTagKind, lstLog):
     try:
@@ -197,6 +199,41 @@ def getCSV(lstLog):
             lstLogParameta = log.getLogParametaList()
             writer.writerow(lstLogParameta)
     return
+
+def startStat(csv):
+    os.system("clear")
+    sortDate = input("day or month or year>>>")
+    year = 0
+    month = 0
+    day = 0
+    if (sortDate == "day"):
+        year = input("input year>>>")
+        month = input("input month>>>")
+        day = input("input day>>>")
+        data = csv.getDataOfDay(year, month, day)
+    elif (sortDate == "month"):
+        year = input("inpur year>>>")
+        month = input("input month>>>")
+        data = csv.getDataOfMonth(year, month)
+    elif (sortDate == "year"):
+        year = input("input year>>>")
+        data = csv.getDataOfYear(year)
+    else:
+        print("Error")
+        return
+    
+    sortTag = input("1:Project\n2:Kind>>>\n")
+    if (sortTag == "1" or sortTag == ""):
+        os.system("clear")
+        csv.getSumOfProject(data)
+    elif (sortTag == "2"):
+        os.system("clear")
+        csv.getSumOfKind(data)
+    else:
+        print("Error")
+    return
+    
+
 
 
     

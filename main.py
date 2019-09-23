@@ -33,7 +33,7 @@ if __name__ == '__main__':
         if (userinput == "stat"):
             main_func.getCSV(lstLog)
             csv = statistics.CSV()
-            csv.get()
+            main_func.startStat(csv)
         if (userinput == "0"):
             i = 1
     
