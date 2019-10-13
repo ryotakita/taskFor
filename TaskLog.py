@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import datetime
 
 def get_h_m_s(doTime):

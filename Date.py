@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class Date:
     def __init__(self, month, day, hour = "00"):
         self.year = "2019"

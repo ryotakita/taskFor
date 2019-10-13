@@ -1,9 +1,14 @@
 
+# -*- coding: utf-8 -*-
 import main_func
+import datetime
 import os
 import statistics
 
 if __name__ == '__main__':
+    #startTimeはshellに常時表示なのでglobalで持つ
+    startTime = datetime.datetime(1000,1,1,0,0,0,0)
+
     lstTask = main_func.startTaskFor()
     lstTagProject = main_func.startTagProjectFor()
     lstTagKind = main_func.startTagKindFor()

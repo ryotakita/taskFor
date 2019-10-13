@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import re
 import os
 import time
@@ -11,13 +12,16 @@ import main_func
 import TaskLog
 import statistics
 
+#TODO: タグとタスクログの削除対応
+
+
 def setTask(lstTask):
     taskInf = input("title,date,subtitle>>>")
     lstTaskInf = re.split('\s', taskInf)
     title = ""
     subtitle = ""
     month = "00"
-    day = "00"
+    day = "00.datetime"
     hour = "00"
     if (len(lstTaskInf) == 2):
         title = lstTaskInf[0]
@@ -79,6 +83,12 @@ def getLogInf(lstLog):
         today = datetime.datetime.now()
         day = today.day
         os.system("clear")
+        try:
+            with open("startTime.pickle", mode="rb") as f:
+                startTime = pickle.load(f)
+                print(str(startTime))
+        except FileNotFoundError:
+            print("Not Found StartTime")
         for log in lstLog:
             logDay = log.startTime.day
             if (logDay == day):
@@ -86,6 +96,12 @@ def getLogInf(lstLog):
                 print(logInf)
     else:
         os.system("clear")
+        try:
+            with open("startTime.pickle", mode="rb") as f:
+                startTime = pickle.load(f)
+                print(str(startTime))
+        except FileNotFoundError:
+            print("Not Found StartTime")
         for log in lstLog:
             logDay = log.startTime.day
             if (logDay == int(when)):
@@ -145,19 +161,43 @@ def startTagKindFor():
         return lstTagKind
 
 def setLogStartTime():
+    global startTime
     startTime = datetime.datetime.now()
     with open("startTime.pickle", mode="wb") as f:
         pickle.dump(startTime, f)
-    print("startYourTask")
+    print("startYourTask->" + str(startTime))
 
 def setTaskLog(lstTagProject, lstTagKind, lstLog):
     try:
         with open("startTime.pickle", mode="rb") as f:
             startTime = pickle.load(f)
+            print(str(startTime))
     except FileNotFoundError:
         print("Not Found StartTime")
         return
     endTime = datetime.datetime.now()
+    userinput = input("customStart?")
+    if (userinput == "1"):
+        startTimeTmp = input("insertStartTime>>>")
+        if (len(startTimeTmp) == 4):
+            hour = startTimeTmp[:2]
+            minutes = startTimeTmp[2:4]
+            now = datetime.datetime.now()
+            startTime = datetime.datetime(now.year, now.month, now.day, int(hour), int(minutes))
+        else:
+            print("InvalidData")
+            return
+    userinput = input("customEnd?")
+    if (userinput == "1"):
+        endTimeTmp = input("insertEndTime>>>")
+        if (len(endTimeTmp) == 4):
+            hour = endTimeTmp[:2]
+            minutes = endTimeTmp[2:4]
+            now = datetime.datetime.now()
+            endTime = datetime.datetime(now.year, now.month, now.day, int(hour), int(minutes))
+        else:
+            print("InvalidData")
+            return
     title = input("title>>>")
     os.system("clear")
     for tagProject in lstTagProject:
@@ -191,6 +231,8 @@ def setTaskLog(lstTagProject, lstTagKind, lstLog):
 
     taskLog = TaskLog.Log(startTime, endTime, title, tagProjectForSet, tagKindForSet, doTime)
     lstLog.append(taskLog)
+    os.remove("startTime.pickle")
+
 
 def getCSV(lstLog):
     with open("log.csv", "w") as f:
@@ -202,6 +244,12 @@ def getCSV(lstLog):
 
 def startStat(csv):
     os.system("clear")
+    try:
+        with open("startTime.pickle", mode="rb") as f:
+            startTime = pickle.load(f)
+            print(str(startTime))
+    except FileNotFoundError:
+        print("Not Found StartTime")
     sortDate = input("day or month or year>>>")
     year = 0
     month = 0
@@ -225,18 +273,25 @@ def startStat(csv):
     sortTag = input("1:Project\n2:Kind>>>\n")
     if (sortTag == "1" or sortTag == ""):
         os.system("clear")
+        try:
+            with open("startTime.pickle", mode="rb") as f:
+                startTime = pickle.load(f)
+                print(str(startTime))
+        except FileNotFoundError:
+            print("Not Found StartTime")
         csv.getSumOfProject(data)
     elif (sortTag == "2"):
         os.system("clear")
+        try:
+            with open("startTime.pickle", mode="rb") as f:
+                startTime = pickle.load(f)
+                print(str(startTime))
+        except FileNotFoundError:
+            print("Not Found StartTime")
         csv.getSumOfKind(data)
     else:
         print("Error")
     return
     
 
-
-
     
-
-    
-
