@@ -71,6 +71,8 @@ def setTask(lstTask):
 
 
 def getTaskInf(lstTask):
+    os.system("clear")
+    printStartTime()
     count = 1
     for task in lstTask:
         taskInf = task.getTaskInf()
@@ -79,16 +81,11 @@ def getTaskInf(lstTask):
 
 def getLogInf(lstLog):
     when = input("when?>>>")
-    if (when == "today"):
+    if (when == "today" or when == ""):
         today = datetime.datetime.now()
         day = today.day
         os.system("clear")
-        try:
-            with open("startTime.pickle", mode="rb") as f:
-                startTime = pickle.load(f)
-                print(str(startTime))
-        except FileNotFoundError:
-            print("Not Found StartTime")
+        printStartTime()
         for log in lstLog:
             logDay = log.startTime.day
             if (logDay == day):
@@ -96,12 +93,7 @@ def getLogInf(lstLog):
                 print(str(lstLog.index(log)) + logInf)
     else:
         os.system("clear")
-        try:
-            with open("startTime.pickle", mode="rb") as f:
-                startTime = pickle.load(f)
-                print(str(startTime))
-        except FileNotFoundError:
-            print("Not Found StartTime")
+        printStartTime()
         for log in lstLog:
             logDay = log.startTime.day
             if (logDay == int(when)):
@@ -248,12 +240,7 @@ def getCSV(lstLog):
 
 def startStat(csv):
     os.system("clear")
-    try:
-        with open("startTime.pickle", mode="rb") as f:
-            startTime = pickle.load(f)
-            print(str(startTime))
-    except FileNotFoundError:
-        print("Not Found StartTime")
+    printStartTime()
     sortDate = input("day or month or year>>>")
     year = 0
     month = 0
@@ -277,25 +264,45 @@ def startStat(csv):
     sortTag = input("1:Project\n2:Kind>>>\n")
     if (sortTag == "1" or sortTag == ""):
         os.system("clear")
-        try:
-            with open("startTime.pickle", mode="rb") as f:
-                startTime = pickle.load(f)
-                print(str(startTime))
-        except FileNotFoundError:
-            print("Not Found StartTime")
+        printStartTime()
         csv.getSumOfProject(data)
     elif (sortTag == "2"):
         os.system("clear")
-        try:
-            with open("startTime.pickle", mode="rb") as f:
-                startTime = pickle.load(f)
-                print(str(startTime))
-        except FileNotFoundError:
-            print("Not Found StartTime")
+        printStartTime()
         csv.getSumOfKind(data)
     else:
         print("Error")
     return
     
+def deleteTag(lstTagKind,lstTagProject):
+    os.system("clear")
+    print("0:Project")
+    userinput = input("1:Kind")
+    if (userinput == "0"):
+        for tag in lstTagProject:
+            print(str(lstTagProject.index(tag)) + ":" + tag)
+        deleteIndex = input("deleteNumber?>>>")
+        print("deleteThisTag-> " + lstTagProject[int(deleteIndex)])
+        del lstTagProject[int(deleteIndex)]
+        with open("tagProject.pickle", mode="wb") as f:
+            pickle.dump(lstTagProject, f)
+    if (userinput == "1"):
+        for tag in lstTagKind:
+            print(str(lstTagKind.index(tag)) + ":" + tag)
+        deleteIndex = input("deleteNumber?")
+        print("deleteThisTag-> " + lstTagKind[int(deleteIndex)])
+        del lstTagKind[int(deleteIndex)]
+        with open("tagKind.pickle", mode="wb") as f:
+            pickle.dump(lstTagKind, f)
+
+def printStartTime():
+    try:
+        with open("startTime.pickle", mode="rb") as f:
+            startTime = pickle.load(f)
+            print(str(startTime))
+    except FileNotFoundError:
+        print("Not Found StartTime")
+
+        
 
     
