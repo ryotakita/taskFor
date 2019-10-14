@@ -93,7 +93,7 @@ def getLogInf(lstLog):
             logDay = log.startTime.day
             if (logDay == day):
                 logInf = log.getLogInfForDay()
-                print(logInf)
+                print(str(lstLog.index(log)) + logInf)
     else:
         os.system("clear")
         try:
@@ -106,7 +106,11 @@ def getLogInf(lstLog):
             logDay = log.startTime.day
             if (logDay == int(when)):
                 logInf = log.getLogInfForDay()
-                print(logInf)
+                print(str(lstLog.index(log)) + logInf)
+    userinput = input("deleteAnyLog?")
+    if (userinput == "1"):
+        deleteindex = input("deleteIndex?")
+        del lstLog[int(deleteindex)]
 
 def deleteTask(lstTask):
     deleteNum = input("deleteNumber?>>>")

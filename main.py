@@ -35,6 +35,7 @@ if __name__ == '__main__':
             main_func.saveLog(lstLog)
         if (userinput == "getlog"):
             main_func.getLogInf(lstLog)
+            main_func.saveLog(lstLog)
         if (userinput == "stat"):
             main_func.getCSV(lstLog)
             csv = statistics.CSV()
