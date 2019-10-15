@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
@@ -5,10 +6,8 @@ import datetime
 
 class CSV:
     def __init__(self):
-        self.data = pd.read_csv("log.csv", names=("starTIme","endTime","Title","project","kind","time"))
-        self.data.head(2)
         self.data = pd.read_csv("log.csv", names=(
-            "startTime", "endTime", "Title", "project", "kind", "time"))
+            "startTime", "endTime", "Title", "project", "kind", "time"), encoding="SHIFT-JIS")
         self.data.head(2)
         self.data.set_index("startTime", inplace=True)
         self.data.index = pd.to_datetime(self.data.index)
