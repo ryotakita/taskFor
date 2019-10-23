@@ -71,7 +71,7 @@ def setTask(lstTask):
 
 
 def getTaskInf(lstTask):
-    os.system("clear")
+    os.system("cls")
     printStartTime()
     count = 1
     for task in lstTask:
@@ -84,7 +84,7 @@ def getLogInf(lstLog):
     if (when == "today" or when == ""):
         today = datetime.datetime.now()
         day = today.day
-        os.system("clear")
+        os.system("cls")
         printStartTime()
         for log in lstLog:
             logDay = log.startTime.day
@@ -92,7 +92,7 @@ def getLogInf(lstLog):
                 logInf = log.getLogInfForDay()
                 print(str(lstLog.index(log)) + logInf)
     else:
-        os.system("clear")
+        os.system("cls")
         printStartTime()
         for log in lstLog:
             logDay = log.startTime.day
@@ -162,8 +162,10 @@ def setLogStartTime():
     with open("startTime.pickle", mode="wb") as f:
         pickle.dump(startTime, f)
     print("startYourTask->" + str(startTime))
+    
+    
 
-def setTaskLog(lstTagProject, lstTagKind, lstLog):
+def setTaskLog(lstTagProject, lstTagKind):
     try:
         with open("startTime.pickle", mode="rb") as f:
             startTime = pickle.load(f)
@@ -195,7 +197,7 @@ def setTaskLog(lstTagProject, lstTagKind, lstLog):
             print("InvalidData")
             return
     title = input("title>>>")
-    os.system("clear")
+    os.system("cls")
     for tagProject in lstTagProject:
         print(str(lstTagProject.index(tagProject) + 1) + ":" + tagProject)
     print("0:addTaskProject")
@@ -209,7 +211,7 @@ def setTaskLog(lstTagProject, lstTagKind, lstLog):
     else:
         tagProjectForSet = lstTagProject[int(userinput) - 1]
 
-    os.system("clear")
+    os.system("cls")
     for tagKind in lstTagKind:
         print(str(lstTagKind.index(tagKind) + 1) + ":" + tagKind)
     print("0:addTaskKind")
@@ -225,21 +227,14 @@ def setTaskLog(lstTagProject, lstTagKind, lstLog):
 
     doTime = endTime - startTime
 
-    taskLog = TaskLog.Log(startTime, endTime, title, tagProjectForSet, tagKindForSet, doTime)
-    lstLog.append(taskLog)
+    taskLogCSV = [startTime, endTime, title, tagProjectForSet, tagKindForSet, doTime]
+    with open("log.csv", "a") as f:
+        writer = csv.writer(f, lineterminator='\n') # 行末は改行
+        writer.writerow(taskLogCSV)
     os.remove("startTime.pickle")
 
-
-def getCSV(lstLog):
-    with open("log.csv", "w") as f:
-        writer = csv.writer(f)
-        for log in lstLog:
-            lstLogParameta = log.getLogParametaList()
-            writer.writerow(lstLogParameta)
-    return
-
 def startStat(csv):
-    os.system("clear")
+    os.system("cls")
     printStartTime()
     sortDate = input("day or month or year>>>")
     year = 0
@@ -263,11 +258,11 @@ def startStat(csv):
     
     sortTag = input("1:Project\n2:Kind>>>\n")
     if (sortTag == "1" or sortTag == ""):
-        os.system("clear")
+        os.system("cls")
         printStartTime()
         csv.getSumOfProject(data)
     elif (sortTag == "2"):
-        os.system("clear")
+        os.system("cls")
         printStartTime()
         csv.getSumOfKind(data)
     else:
@@ -275,7 +270,7 @@ def startStat(csv):
     return
     
 def deleteTag(lstTagKind,lstTagProject):
-    os.system("clear")
+    os.system("cls")
     print("0:Project")
     userinput = input("1:Kind")
     if (userinput == "0"):
